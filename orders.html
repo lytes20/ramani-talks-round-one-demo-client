@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Orders</title>
+  </head>
+  <body>
+    <div>
+      <h1>Orders Application</h1>
+      <p>Welcome to your orders</p>
+      <p>Here are your orders</p>
+      <ul id="orders"></ul>
+    </div>
+
+    <script>
+      fetch("http://localhost:5000/api/orders", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("data", data);
+          let output = "";
+          data.orders.forEach((order) => {
+            output += `
+                <li>Product Name: ${order.product_name}</li>
+                <li>Quantity: ${order.quantity}</li>
+                <br />
+            `;
+          });
+          document.getElementById("orders").innerHTML = output;
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    </script>
+  </body>
+</html>
